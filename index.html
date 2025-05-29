@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛠️ Dummies - Herramientas de Desarrollo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            margin-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #007cba, #00a8ff);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .tool-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .tool-description {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .tool-features li {
+            padding: 5px 0;
+            color: #555;
+        }
+
+        .tool-features li::before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .tool-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #007cba, #00a8ff);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,124,186,0.3);
+        }
+
+        .tool-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,124,186,0.4);
+        }
+
+        .coming-soon {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .coming-soon .tool-link {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .github-link {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .github-link:hover {
+            background: #555;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🛠️ Dummies</h1>
+            <p>Herramientas de Desarrollo y Testing para Desarrolladores</p>
+        </header>
+
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Herramientas Activas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">En Desarrollo</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Open Source</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">PHP</div>
+                <div class="stat-label">Tecnología Principal</div>
+            </div>
+        </section>
+
+        <section class="tools-grid">
+            <!-- PHPMailer Testing Tool -->
+            <div class="tool-card">
+                <span class="tool-icon">📧</span>
+                <h3 class="tool-title">PHPMailer Testing Tool</h3>
+                <p class="tool-description">
+                    Herramienta completa para probar configuraciones de envío de emails con soporte para múltiples proveedores SMTP.
+                </p>
+                <ul class="tool-features">
+                    <li>Soporte para Gmail, Outlook, Yahoo</li>
+                    <li>Configuración de servidor personalizado</li>
+                    <li>Debug detallado en tiempo real</li>
+                    <li>Interfaz web moderna y responsive</li>
+                </ul>
+                <a href="PHPMailer-6.10.0/" class="tool-link">🚀 Abrir Herramienta</a>
+            </div>
+
+            <!-- Database Connection Tester - Coming Soon -->
+            <div class="tool-card coming-soon">
+                <span class="tool-icon">🗄️</span>
+                <h3 class="tool-title">Database Connection Tester</h3>
+                <p class="tool-description">
+                    Prueba conexiones a diferentes bases de datos (MySQL, PostgreSQL, SQLite, MongoDB).
+                </p>
+                <ul class="tool-features">
+                    <li>Múltiples tipos de base de datos</li>
+                    <li>Test de rendimiento</li>
+                    <li>Validación de queries</li>
+                    <li>Exportación de resultados</li>
+                </ul>
+                <a href="#" class="tool-link">🔜 Próximamente</a>
+            </div>
+
+            <!-- API Response Checker - Coming Soon -->
+            <div class="tool-card coming-soon">
+                <span class="tool-icon">🌐</span>
+                <h3 class="tool-title">API Response Checker</h3>
+                <p class="tool-description">
+                    Testing completo de endpoints y APIs con validación de respuestas y métricas de rendimiento.
+                </p>
+                <ul class="tool-features">
+                    <li>GET, POST, PUT, DELETE requests</li>
+                    <li>Autenticación OAuth y API Keys</li>
+                    <li>Validación de JSON/XML</li>
+                    <li>Métricas de tiempo de respuesta</li>
+                </ul>
+                <a href="#" class="tool-link">🔜 Próximamente</a>
+            </div>
+
+            <!-- SSL Certificate Validator - Coming Soon -->
+            <div class="tool-card coming-soon">
+                <span class="tool-icon">🔒</span>
+                <h3 class="tool-title">SSL Certificate Validator</h3>
+                <p class="tool-description">
+                    Verificación completa de certificados SSL con análisis de seguridad y fechas de expiración.
+                </p>
+                <ul class="tool-features">
+                    <li>Validación de certificados</li>
+                    <li>Análisis de cadena de confianza</li>
+                    <li>Alertas de expiración</li>
+                    <li>Reporte de vulnerabilidades</li>
+                </ul>
+                <a href="#" class="tool-link">🔜 Próximamente</a>
+            </div>
+
+            <!-- Performance Monitor - Coming Soon -->
+            <div class="tool-card coming-soon">
+                <span class="tool-icon">📊</span>
+                <h3 class="tool-title">Performance Monitor</h3>
+                <p class="tool-description">
+                    Monitor de rendimiento web con análisis de velocidad de carga y optimización de recursos.
+                </p>
+                <ul class="tool-features">
+                    <li>Análisis de velocidad de página</li>
+                    <li>Optimización de imágenes</li>
+                    <li>Reporte de Core Web Vitals</li>
+                    <li>Sugerencias de mejora</li>
+                </ul>
+                <a href="#" class="tool-link">🔜 Próximamente</a>
+            </div>
+
+            <!-- Color Palette Generator - Coming Soon -->
+            <div class="tool-card coming-soon">
+                <span class="tool-icon">🎨</span>
+                <h3 class="tool-title">Color Palette Generator</h3>
+                <p class="tool-description">
+                    Generador de paletas de colores con exportación en múltiples formatos para diseñadores y desarrolladores.
+                </p>
+                <ul class="tool-features">
+                    <li>Generación automática de paletas</li>
+                    <li>Análisis de contraste</li>
+                    <li>Exportación CSS/SASS/JSON</li>
+                    <li>Paletas basadas en imágenes</li>
+                </ul>
+                <a href="#" class="tool-link">🔜 Próximamente</a>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <h3>🤝 Contribuye al Proyecto</h3>
+            <p>¿Tienes ideas para nuevas herramientas? ¡Tu contribución es bienvenida!</p>
+            <a href="https://github.com/diego-mascarenhas/dummies" class="github-link">
+                📁 Ver en GitHub
+            </a>
+            <br><br>
+            <p style="margin-top: 20px; opacity: 0.8;">
+                Desarrollado por <a href="https://www.linkedin.com/in/diego-mascarenhas/" 
+                                   style="color: #00a8ff; text-decoration: none; font-weight: bold;" 
+                                   target="_blank">DAMG</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Animación de aparición gradual
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.tool-card, .stat-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Efecto de partículas en el fondo (opcional)
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.backgroundColor = 'rgba(255,255,255,0.1)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = '-10px';
+            particle.style.zIndex = '-1';
+            
+            document.body.appendChild(particle);
+            
+            const duration = Math.random() * 3000 + 2000;
+            particle.animate([
+                { transform: 'translateY(0px)', opacity: 0 },
+                { transform: `translateY(${window.innerHeight + 10}px)`, opacity: 1 }
+            ], {
+                duration: duration,
+                easing: 'linear'
+            }).onfinish = () => particle.remove();
+        }
+
+        // Crear partículas cada cierto tiempo
+        setInterval(createParticle, 300);
+    </script>
+</body>
+</html> 
