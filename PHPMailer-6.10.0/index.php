@@ -39,6 +39,13 @@ $configurations = [
         'encryption' => PHPMailer::ENCRYPTION_STARTTLS,
         'name' => 'Yahoo (Port 587 - STARTTLS)'
     ],
+    'sendgrid_587' => [
+        'host' => 'smtp.sendgrid.net',
+        'port' => 587,
+        'encryption' => PHPMailer::ENCRYPTION_STARTTLS,
+        'name' => 'SendGrid (Port 587 - STARTTLS)',
+        'info' => 'Usar "apikey" como usuario y tu API key como contraseña'
+    ],
     'custom' => [
         'host' => '',
         'port' => 587,
@@ -69,10 +76,22 @@ function testEmailSending($config, $userEmail, $userPassword, $destinationEmail,
         $mail->isSMTP();
         $mail->Host = $config['host'];
         $mail->SMTPAuth = true;
-        $mail->Username = $userEmail;
-        $mail->Password = $userPassword;
+        
+        // Special handling for SendGrid
+        if (strpos($config['host'], 'sendgrid') !== false) {
+            $mail->Username = 'apikey';
+            $mail->Password = $userPassword; // Password should be the API key
+        } else {
+            $mail->Username = $userEmail;
+            $mail->Password = $userPassword;
+        }
+        
         $mail->SMTPSecure = $config['encryption'];
         $mail->Port = $config['port'];
+        
+        // Configuración de codificación para caracteres especiales
+        $mail->CharSet = 'UTF-8';
+        $mail->Encoding = 'base64';
 
         // Enable detailed debug
         $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;
@@ -90,14 +109,16 @@ function testEmailSending($config, $userEmail, $userPassword, $destinationEmail,
         $mail->Subject = 'Test Email - ' . $config['name'];
         $mail->Body = "
             <h2>Test Email</h2>
+            <p>Este es un correo de prueba enviado vía " . $config['name'] . ".</p>
             <p>This is a test email sent using:</p>
             <ul>
                 <li><strong>Server:</strong> {$config['host']}</li>
                 <li><strong>Port:</strong> {$config['port']}</li>
-                <li><strong>Encryption:</strong> " . ($config['encryption'] == PHPMailer::ENCRYPTION_STARTTLS ? 'STARTTLS' : 'SSL/TLS') . "</li>
+                <li><strong>Encryption:</strong> " . ($config['encryption'] == PHPMailer::ENCRYPTION_STARTTLS ? 'STARTTLS' : ($config['encryption'] == PHPMailer::ENCRYPTION_SMTPS ? 'SSL/TLS' : 'Sin encriptación')) . "</li>
                 <li><strong>Date:</strong> " . date('Y-m-d H:i:s') . "</li>
+                <li><strong>Caracteres especiales:</strong> áéíóúñÁÉÍÓÚÑ</li>
             </ul>
-            <p>If you receive this email, the configuration is working correctly.</p>
+            <p>Si recibes este email correctamente, la configuración está funcionando.</p>
         ";
 
         $mail->AltBody = 'Test email - ' . $config['name'] . ' - ' . date('Y-m-d H:i:s');
@@ -274,7 +295,7 @@ function testEmailSending($config, $userEmail, $userPassword, $destinationEmail,
 
         <div class="warning">
             <strong>⚠️ Importante:</strong> Asegúrate de cambiar las credenciales antes de probar. Para Gmail,
-            necesitarás usar una "App Password" en lugar de tu contraseña normal.
+            necesitarás usar una "App Password" en lugar de tu contraseña normal. Para SendGrid, usa "apikey" como usuario y tu API key como contraseña.
         </div>
 
         <form method="POST">
@@ -388,6 +409,12 @@ function testEmailSending($config, $userEmail, $userPassword, $destinationEmail,
                 echo "<p><strong>Servidor:</strong> " . $config['host'] . "</p>";
                 echo "<p><strong>Puerto:</strong> " . $config['port'] . "</p>";
                 echo "<p><strong>Encriptación:</strong> " . ($config['encryption'] == PHPMailer::ENCRYPTION_STARTTLS ? 'STARTTLS' : ($config['encryption'] == PHPMailer::ENCRYPTION_SMTPS ? 'SSL/TLS' : 'Sin encriptación')) . "</p>";
+                
+                // Nota especial para SendGrid
+                if (strpos($config['host'], 'sendgrid') !== false) {
+                    echo "<p class='warning' style='margin-top: 10px;'><strong>Nota SendGrid:</strong> Se está usando 'apikey' como nombre de usuario automáticamente. Asegúrate de que el campo de contraseña contiene tu API key de SendGrid.</p>";
+                }
+                
                 echo "</div>";
 
                 echo "<div class='debug-output'>";
@@ -413,6 +440,7 @@ function testEmailSending($config, $userEmail, $userPassword, $destinationEmail,
                 <li><strong>Puerto 465:</strong> Usa SSL/TLS (más antiguo pero aún funcional)</li>
                 <li><strong>Puerto 25:</strong> Sin encriptación (solo para servidores locales)</li>
                 <li><strong>Gmail:</strong> Necesitas habilitar "App Passwords" en tu cuenta</li>
+                <li><strong>SendGrid:</strong> Usa "apikey" como nombre de usuario y tu API key como contraseña</li>
                 <li><strong>Outlook:</strong> Puede requerir autenticación de dos factores</li>
                 <li><strong>Servidor Propio:</strong> Verifica firewall y configuración de autenticación SMTP</li>
                 <li><strong>Debug Output:</strong> Te mostrará exactamente qué está pasando con la conexión SMTP</li>
